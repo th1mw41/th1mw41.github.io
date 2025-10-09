@@ -1,11 +1,171 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Portfolio</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <h1>Hello, I’m Thim Wai!</h1>
-    <p>Welcome to my portfolio. I make games, art, and cool projects. Test</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thim Wai Chan – Gameplay Programmer</title>
+  <style>
+    :root {
+      --accent: #00aaff;
+      --bg: #0e0e10;
+      --text: #e5e5e5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: #111;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      border-bottom: 2px solid var(--accent);
+    }
+    header h1 {
+      color: var(--accent);
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
+    }
+    header p {
+      font-size: 1rem;
+      color: #ccc;
+    }
+    nav {
+      margin-top: 1rem;
+    }
+    nav a {
+      color: var(--text);
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: var(--accent); }
+
+    section {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .project {
+      background: #1a1a1d;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .project h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .project p {
+      color: #bbb;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid #222;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      nav a { margin: 0 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Thim Wai Chan</h1>
+    <p>Gameplay Programmer | C++ | Unreal Engine | OpenGL</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      I’m a gameplay programmer passionate about crafting engaging player experiences.
+      I'm proficient in C++ and have used lua and java.
+      Currently studying at DigiPen Institute of Technology, I enjoy turning technical challenges
+      into smooth, fun gameplay.
+    </p>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+      <div class="project">
+        <h3>Isometric 3D Engine</h3>
+        <p>
+          A custom ECS engine built in C++ and OpenGL with integrated lua scripting.
+          I did the text rendering system and physics with collision system for the engine.
+          Implemented TrueType Font support with FreeType for text rendering and
+          efficient texture atlas management within the engine.
+        </p>
+      </div>
+      <div class="project">
+        <h3>Mining game on Roblox</h3>
+        <p>
+          Working on a mining game on roblox.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>C++, Lua for prototyping and scripting</li>
+      <li>Unreal Engine</li>
+      <li>Physics simulation and collision resolution</li>
+      <li>Git / Version Control / Team Workflow</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>
+      📧 <a href="mailto:thimwai@gmail.com">thimwai@gmail.com</a><br/>
+      💻 <a href="https://github.com/th1mw41" target="_blank">github.com/th1mw41</a><br/>
+      🔗 <a href="https://www.linkedin.com/in/thim-wai-chan-20849b319/" target="_blank">https://www.linkedin.com/in/thim-wai-chan-20849b319/</a>
+    </p>
+  </section>
+
+  <footer>
+    © 2025 Thim Wai Chan — lol
+  </footer>
+
+</body>
 </html>
