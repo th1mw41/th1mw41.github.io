@@ -11,7 +11,9 @@
       --accent: #00ffff;
       --bg: radial-gradient(circle at top, #05050a, #010104 80%);
       --text: #e5e5e5;
+      --muted: #aaa;
       --card-bg: rgba(20, 20, 30, 0.8);
+      --card-br: 12px;
       --neon-glow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 40px var(--accent);
     }
 
@@ -29,10 +31,8 @@
     body::before {
       content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: repeating-linear-gradient(
         to right,
         rgba(0, 255, 255, 0.05) 0px,
@@ -54,171 +54,89 @@
 
     /* Floating particle effects */
     .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: -1;
+      position: fixed; inset: 0;
+      overflow: hidden; pointer-events: none; z-index: -1;
     }
-
     .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
+      position: absolute; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
       box-shadow: 0 0 10px var(--accent);
       animation: floatParticle linear infinite;
+      transition: transform 0.3s ease-out;
     }
 
     @keyframes floatParticle {
       0% { transform: translateY(0) scale(1); opacity: 1; }
       100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
     }
-
-    @keyframes moveGrid {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(80px); }
-    }
+    @keyframes moveGrid { 0% { transform: translateY(0px);} 100% { transform: translateY(80px);} }
 
     header {
-      text-align: center;
-      padding: 3rem 1.5rem;
-      border-bottom: 1px solid #0ff5;
-      background: rgba(0, 10, 20, 0.4);
+      text-align: center; padding: 3rem 1.5rem;
+      border-bottom: 1px solid #0ff5; background: rgba(0, 10, 20, 0.4);
       box-shadow: 0 0 20px #00ffff22;
     }
     header h1 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--accent);
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      text-shadow: var(--neon-glow);
+      font-family: 'Orbitron', sans-serif; color: var(--accent);
+      font-size: 2.5rem; letter-spacing: 2px; text-shadow: var(--neon-glow);
     }
-    header p {
-      color: #ccc;
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-    }
+    header p { color: #ccc; font-size: 1.1rem; margin-top: 0.5rem; }
 
-    nav {
-      margin-top: 1.5rem;
-    }
+    nav { margin-top: 1.5rem; }
     nav a {
-      color: var(--text);
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: 600;
-      text-transform: uppercase;
-      transition: color 0.3s, text-shadow 0.3s;
+      color: var(--text); margin: 0 1rem; text-decoration: none; font-weight: 600;
+      text-transform: uppercase; transition: color 0.3s, text-shadow 0.3s;
     }
-    nav a:hover {
-      color: var(--accent);
-      text-shadow: var(--neon-glow);
-    }
+    nav a:hover { color: var(--accent); text-shadow: var(--neon-glow); }
 
-    section {
-      max-width: 1000px;
-      margin: 4rem auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 1;
-    }
+    section { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; position: relative; z-index: 1; }
 
     h2 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--accent);
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px var(--accent);
-      position: relative;
+      font-family: 'Orbitron', sans-serif; color: var(--accent); font-size: 1.8rem;
+      margin-bottom: 1rem; text-shadow: 0 0 10px var(--accent); position: relative;
     }
-    h2::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -5px;
-      width: 60px;
-      height: 2px;
-      background: var(--accent);
-      box-shadow: var(--neon-glow);
-    }
+    h2::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 60px; height: 2px; background: var(--accent); box-shadow: var(--neon-glow); }
 
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
+    /* Project grid */
+    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
     .project {
-      background: var(--card-bg);
-      border: 1px solid #00ffff33;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      background: var(--card-bg); border: 1px solid #00ffff33; border-radius: var(--card-br);
+      padding: 1.5rem; box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      display: flex; flex-direction: column; gap: 0.75rem;
     }
-    .project:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
-    }
-    .project h3 {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 5px var(--accent);
-    }
-    .project p {
-      color: #aaa;
-      font-size: 1rem;
-    }
+    .project:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 25px rgba(0, 255, 255, 0.4); border-color: #00ffff77; }
+    .project h3 { color: var(--accent); margin-bottom: 0.25rem; text-shadow: 0 0 5px var(--accent); }
+    .project p { color: var(--muted); font-size: 1rem; }
 
-    ul li {
-      list-style: none;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #222;
-    }
+    /* Media placeholder */
+    .project-media { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; border: 1px solid #00ffff33; background: linear-gradient(135deg, #0c0f14, #0a1a20); }
+    /*.project-media::after { content: 'Media Placeholder'; position: absolute; inset: 0; display: grid; place-items: center; color: #8fd; font-weight: 600; letter-spacing: 1px; opacity: 0.6; }*/
+.project-media img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Ensures full image is visible */
+  border-radius: 10px;
+  display: block;
+  background-color: #000; /* Optional: fills background for transparent images */
+}
+    /* Button row */
+    .actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.25rem; }
+    .btn { --ring:#00ffff55; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #00ffff44; color: var(--text); text-decoration: none; background: #0b1418; box-shadow: 0 0 0 0 var(--ring); transition: box-shadow 0.25s, transform 0.2s, border-color 0.25s; }
+    .btn:hover { border-color: #00ffffaa; box-shadow: 0 0 12px var(--ring); transform: translateY(-1px); }
 
-    a {
-      color: var(--accent);
-      position: relative;
-      text-decoration: none;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
-    a:hover {
-      color: #fff;
-      text-shadow: var(--neon-glow);
-    }
+    ul li { list-style: none; padding: 0.5rem 0; border-bottom: 1px solid #222; }
 
-    footer {
-      text-align: center;
-      padding: 3rem 1rem;
-      font-size: 0.9rem;
-      color: #999;
-      border-top: 1px solid #00ffff44;
-      background: rgba(0, 5, 10, 0.4);
-      position: relative;
-    }
-    footer span {
-      color: var(--accent);
-      text-shadow: 0 0 5px var(--accent);
-    }
+    a { color: var(--accent); position: relative; text-decoration: none; transition: color 0.3s ease, text-shadow 0.3s ease; }
+    a:hover { color: #fff; text-shadow: var(--neon-glow); }
 
-    @keyframes glowPulse {
-      0% { text-shadow: none; }
-      50% { text-shadow: var(--neon-glow); }
-      100% { text-shadow: none; }
-    }
+    footer { text-align: center; padding: 3rem 1rem; font-size: 0.9rem; color: #999; border-top: 1px solid #00ffff44; background: rgba(0, 5, 10, 0.4); position: relative; }
+    footer span { color: var(--accent); text-shadow: 0 0 5px var(--accent); }
 
-    header h1:hover {
-      animation: glowPulse 1.5s infinite;
-    }
+    @keyframes glowPulse { 0%{text-shadow:none;} 50%{text-shadow:var(--neon-glow);} 100%{text-shadow:none;} }
+    header h1:hover { animation: glowPulse 1.5s infinite; }
 
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.8rem; }
-      nav a { margin: 0 0.4rem; }
-    }
+    @media (max-width: 600px) { header h1 { font-size: 1.8rem; } nav a { margin: 0 0.4rem; } }
   </style>
 </head>
 <body>
@@ -226,7 +144,7 @@
 
   <header>
     <h1>Thim Wai Chan</h1>
-    <p>Gameplay Programmer | C++ | Unreal Engine | OpenGL</p>
+    <p>Gameplay Programmer | C++ | Unreal Engine</p>
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
@@ -248,30 +166,54 @@
   <section id="projects">
     <h2>Projects</h2>
     <div class="projects">
+      <!-- Project 1 -->
       <div class="project">
-        <h3>Isometric 3D Engine</h3>
+        <div class="project-media"></div>
+        <h3>Two Rings: Vanquish and Bloom</h3>
         <p>
-          A custom ECS engine built in C++ and OpenGL with integrated Lua scripting.
-          I implemented the text rendering system and physics with collision system for the engine.
-          Implemented TrueType Font support with FreeType for text rendering and
-          efficient texture atlas management within the engine.
+          A block shooter game built with a custom ECS engine in C++ and OpenGL with integrated Lua scripting. I implemented the text rendering system and physics/collision. TrueType font rendering via FreeType with atlas batching.
         </p>
+        <div class="actions">
+          <a class="btn" href="#" target="_blank">Watch Demo</a>
+          <a class="btn" href="#" target="_blank">Read Notes</a>
+          <a class="btn" href="https://github.com/th1mw41" target="_blank">Source</a>
+        </div>
       </div>
+
+      <!-- Project 2 -->
       <div class="project">
+        <div class="project-media"></div>
         <h3>Mining Game on Roblox</h3>
         <p>
-          Working on a mining game on Roblox focusing on gameplay systems and performance.
+          Systems-focused prototype with Lua scripting. Emphasis on economy loops, tool upgrades, and performance on lower-end devices.
+
         </p>
+        <div class="actions">
+          <a class="btn" href="#" target="_blank">Gameplay Clip</a>
+          <a class="btn" href="#" target="_blank">Design Doc</a>
+        </div>
       </div>
-    </div>
+
+      <!-- NEW Project 3 -->
+      <div class="project">
+        <div class="project-media"><img src="wcdonaldland.png" alt="Description of image"></div>
+        <h3>WcDonaldLand</h3>
+        <p>
+          3D walking simulator in C++.
+        </p>
+        <div class="actions">
+          <a class="btn" href="#" target="_blank">Short GIF</a>
+          <a class="btn" href="#" target="_blank">Postmortem</a>
+        </div>
+      </div>
+
   </section>
 
   <section id="skills">
     <h2>Skills</h2>
     <ul>
-      <li>C++, Lua for prototyping and scripting</li>
+      <li>C++, Lua</li>
       <li>Unreal Engine</li>
-      <li>Physics simulation and collision resolution</li>
       <li>Git / Version Control / Team Workflow</li>
     </ul>
   </section>
@@ -290,20 +232,30 @@
   </footer>
 
   <script>
+    // particles init (kept lightweight)
     const particleContainer = document.getElementById('particles');
-    const numParticles = 30;
+    const numParticles = 30; const particles = [];
     for (let i = 0; i < numParticles; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
+      const p = document.createElement('div');
+      p.classList.add('particle');
       const size = Math.random() * 6 + 3;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${10 + Math.random() * 20}s`;
-      particle.style.animationDelay = `${Math.random() * 10}s`;
-      particleContainer.appendChild(particle);
+      p.style.width = `${size}px`; p.style.height = `${size}px`;
+      p.style.left = `${Math.random() * 100}%`; p.style.top = `${Math.random() * 100}%`;
+      p.style.animationDuration = `${10 + Math.random() * 20}s`;
+      p.style.animationDelay = `${Math.random() * 10}s`;
+      particleContainer.appendChild(p); particles.push(p);
     }
+    document.addEventListener('mousemove', (e) => {
+      const {clientX:mx, clientY:my} = e;
+      particles.forEach(p => {
+        const r = p.getBoundingClientRect();
+        const dx = r.left - mx, dy = r.top - my; const d = Math.hypot(dx, dy);
+        if (d < 120) {
+          const a = Math.atan2(dy, dx);
+          p.style.transform = `translate(${Math.cos(a)*20}px, ${Math.sin(a)*20}px)`;
+        } else { p.style.transform = 'translate(0,0)'; }
+      });
+    });
   </script>
 </body>
 </html>
