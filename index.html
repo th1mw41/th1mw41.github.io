@@ -5,102 +5,224 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thim Wai Chan – Gameplay Programmer</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Rajdhani:wght@400;600&display=swap');
+
     :root {
-      --accent: #00aaff;
-      --bg: #0e0e10;
+      --accent: #00ffff;
+      --bg: radial-gradient(circle at top, #05050a, #010104 80%);
       --text: #e5e5e5;
+      --card-bg: rgba(20, 20, 30, 0.8);
+      --neon-glow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 40px var(--accent);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: 'Rajdhani', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
     }
+
+    /* Animated background grid */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to right,
+        rgba(0, 255, 255, 0.05) 0px,
+        rgba(0, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 80px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 255, 0.05) 0px,
+        rgba(0, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 80px
+      );
+      animation: moveGrid 30s linear infinite;
+      z-index: -2;
+      opacity: 0.3;
+    }
+
+    /* Floating particle effects */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+      animation: floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+    }
+
+    @keyframes moveGrid {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(80px); }
+    }
+
     header {
-      background: #111;
-      padding: 1.5rem 2rem;
       text-align: center;
-      border-bottom: 2px solid var(--accent);
+      padding: 3rem 1.5rem;
+      border-bottom: 1px solid #0ff5;
+      background: rgba(0, 10, 20, 0.4);
+      box-shadow: 0 0 20px #00ffff22;
     }
     header h1 {
+      font-family: 'Orbitron', sans-serif;
       color: var(--accent);
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-shadow: var(--neon-glow);
     }
     header p {
-      font-size: 1rem;
       color: #ccc;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
     }
+
     nav {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
     }
     nav a {
       color: var(--text);
       margin: 0 1rem;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: color 0.3s, text-shadow 0.3s;
     }
-    nav a:hover { color: var(--accent); }
+    nav a:hover {
+      color: var(--accent);
+      text-shadow: var(--neon-glow);
+    }
 
     section {
-      max-width: 900px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
+      max-width: 1000px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     h2 {
+      font-family: 'Orbitron', sans-serif;
       color: var(--accent);
+      font-size: 1.8rem;
       margin-bottom: 1rem;
-      border-left: 4px solid var(--accent);
-      padding-left: 0.5rem;
+      text-shadow: 0 0 10px var(--accent);
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 60px;
+      height: 2px;
+      background: var(--accent);
+      box-shadow: var(--neon-glow);
     }
 
     .projects {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
     }
     .project {
-      background: #1a1a1d;
-      border-radius: 10px;
-      padding: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
+      background: var(--card-bg);
+      border: 1px solid #00ffff33;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
     .project:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
     }
     .project h3 {
       color: var(--accent);
       margin-bottom: 0.5rem;
+      text-shadow: 0 0 5px var(--accent);
     }
     .project p {
-      color: #bbb;
-      font-size: 0.95rem;
+      color: #aaa;
+      font-size: 1rem;
+    }
+
+    ul li {
+      list-style: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #222;
+    }
+
+    a {
+      color: var(--accent);
+      position: relative;
+      text-decoration: none;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+    a:hover {
+      color: #fff;
+      text-shadow: var(--neon-glow);
     }
 
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 3rem 1rem;
       font-size: 0.9rem;
-      color: #888;
-      border-top: 1px solid #222;
+      color: #999;
+      border-top: 1px solid #00ffff44;
+      background: rgba(0, 5, 10, 0.4);
+      position: relative;
     }
-    footer a {
+    footer span {
       color: var(--accent);
-      text-decoration: none;
+      text-shadow: 0 0 5px var(--accent);
     }
 
-    /* Responsive */
+    @keyframes glowPulse {
+      0% { text-shadow: none; }
+      50% { text-shadow: var(--neon-glow); }
+      100% { text-shadow: none; }
+    }
+
+    header h1:hover {
+      animation: glowPulse 1.5s infinite;
+    }
+
     @media (max-width: 600px) {
-      header h1 { font-size: 1.6rem; }
-      nav a { margin: 0 0.5rem; }
+      header h1 { font-size: 1.8rem; }
+      nav a { margin: 0 0.4rem; }
     }
   </style>
 </head>
 <body>
+  <div class="particles" id="particles"></div>
 
   <header>
     <h1>Thim Wai Chan</h1>
@@ -117,7 +239,7 @@
     <h2>About Me</h2>
     <p>
       I’m a gameplay programmer passionate about crafting engaging player experiences.
-      I'm proficient in C++ and have used lua and java.
+      I'm proficient in C++ and have used Lua and Java.
       Currently studying at DigiPen Institute of Technology, I enjoy turning technical challenges
       into smooth, fun gameplay.
     </p>
@@ -129,16 +251,16 @@
       <div class="project">
         <h3>Isometric 3D Engine</h3>
         <p>
-          A custom ECS engine built in C++ and OpenGL with integrated lua scripting.
-          I did the text rendering system and physics with collision system for the engine.
+          A custom ECS engine built in C++ and OpenGL with integrated Lua scripting.
+          I implemented the text rendering system and physics with collision system for the engine.
           Implemented TrueType Font support with FreeType for text rendering and
           efficient texture atlas management within the engine.
         </p>
       </div>
       <div class="project">
-        <h3>Mining game on Roblox</h3>
+        <h3>Mining Game on Roblox</h3>
         <p>
-          Working on a mining game on roblox.
+          Working on a mining game on Roblox focusing on gameplay systems and performance.
         </p>
       </div>
     </div>
@@ -159,13 +281,29 @@
     <p>
       📧 <a href="mailto:thimwai@gmail.com">thimwai@gmail.com</a><br/>
       💻 <a href="https://github.com/th1mw41" target="_blank">github.com/th1mw41</a><br/>
-      🔗 <a href="https://www.linkedin.com/in/thim-wai-chan-20849b319/" target="_blank">https://www.linkedin.com/in/thim-wai-chan-20849b319/</a>
+      🔗 <a href="https://www.linkedin.com/in/thim-wai-chan-20849b319/" target="_blank">LinkedIn</a>
     </p>
   </section>
 
   <footer>
-    © 2025 Thim Wai Chan — lol
+    © 2025 <span>Thim Wai Chan</span> — Built with 💙 and futuristic vibes.
   </footer>
 
+  <script>
+    const particleContainer = document.getElementById('particles');
+    const numParticles = 30;
+    for (let i = 0; i < numParticles; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 6 + 3;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${10 + Math.random() * 20}s`;
+      particle.style.animationDelay = `${Math.random() * 10}s`;
+      particleContainer.appendChild(particle);
+    }
+  </script>
 </body>
 </html>
