@@ -111,18 +111,18 @@
 
     /* Media placeholder */
     .project-media { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; border: 1px solid #00ffff33; background: linear-gradient(135deg, #0c0f14, #0a1a20); }
-    /*.project-media::after { content: 'Media Placeholder'; position: absolute; inset: 0; display: grid; place-items: center; color: #8fd; font-weight: 600; letter-spacing: 1px; opacity: 0.6; }*/
-.project-media img {
-  width: 100%;
-  height: auto;
-  object-fit: contain; /* Ensures full image is visible */
-  border-radius: 10px;
-  display: block;
-  background-color: #000; /* Optional: fills background for transparent images */
-}
+    .project-media img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+      display: block;
+      background-color: #000;
+    }
+
     /* Button row */
     .actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.25rem; }
-    .btn { --ring:#00ffff55; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #00ffff44; color: var(--text); text-decoration: none; background: #0b1418; box-shadow: 0 0 0 0 var(--ring); transition: box-shadow 0.25s, transform 0.2s, border-color 0.25s; }
+    .btn { --ring:#00ffff55; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #00ffff44; color: var(--text); text-decoration: none; background: #0b1418; box-shadow: 0 0 0 0 var(--ring); transition: box-shadow 0.25s, transform 0.2s, border-color 0.25s; cursor: pointer; }
     .btn:hover { border-color: #00ffffaa; box-shadow: 0 0 12px var(--ring); transform: translateY(-1px); }
 
     ul li { list-style: none; padding: 0.5rem 0; border-bottom: 1px solid #222; }
@@ -137,6 +137,55 @@
     header h1:hover { animation: glowPulse 1.5s infinite; }
 
     @media (max-width: 600px) { header h1 { font-size: 1.8rem; } nav a { margin: 0 0.4rem; } }
+
+    /* ===== NEW: video modal styles ===== */
+    .video-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .video-overlay.active {
+      display: flex;
+    }
+    .video-modal {
+      position: relative;
+      background: rgba(5, 10, 15, 0.8);
+      border: 1px solid #00ffff66;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+      width: min(90vw, 900px);
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+    .video-modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #00ffffaa;
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    .video-close:hover {
+      background: rgba(0,0,0,0.9);
+    }
   </style>
 </head>
 <body>
@@ -172,24 +221,12 @@
         <h3>Two Rings: Vanquish and Bloom</h3>
         <p>
           A block shooter game built with a custom ECS engine in C++ and OpenGL with integrated Lua scripting.
-        <div class="actions">
-          <a class="btn" href="#" target="_blank">Watch Demo</a>
-          <a class="btn" href="#" target="_blank">Read Notes</a>
-          <a class="btn" href="https://github.com/th1mw41" target="_blank">Source</a>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="project">
-        <div class="project-media"></div>
-        <h3>Mining Game on Roblox</h3>
-        <p>
-          Systems-focused prototype with Lua scripting. Emphasis on economy loops, tool upgrades, and performance on lower-end devices.
-
         </p>
         <div class="actions">
-          <a class="btn" href="#" target="_blank">Gameplay Clip</a>
-          <a class="btn" href="#" target="_blank">Design Doc</a>
+          <!-- NOTE: change the video id here -->
+          <button class="btn watch-demo" data-video="https://www.youtube.com/watch?v=ojKiN08gdwU">
+            Watch Demo
+          </button>
         </div>
       </div>
 
@@ -200,12 +237,8 @@
         <p>
           3D walking simulator in C++.
         </p>
-        <div class="actions">
-          <a class="btn" href="#" target="_blank">Short GIF</a>
-          <a class="btn" href="#" target="_blank">Postmortem</a>
-        </div>
       </div>
-
+    </div>
   </section>
 
   <section id="skills">
@@ -213,7 +246,7 @@
     <ul>
       <li>C++, Lua</li>
       <li>Unreal Engine</li>
-      <li>Git / Version Control / Team Workflow</li>
+      <li>Git / Perforce / Version Control / Team Workflow</li>
     </ul>
   </section>
 
@@ -227,8 +260,24 @@
   </section>
 
   <footer>
-    © 2025 <span>Thim Wai Chan</span> — lol
+    © 2025 <span>Thim Wai Chan</span>
   </footer>
+
+  <!-- ===== NEW: video modal markup ===== -->
+  <div class="video-overlay" id="videoOverlay">
+    <div class="video-modal">
+      <div class="video-close" id="videoClose">×</div>
+      <!-- will be filled in by JS -->
+      <iframe
+        id="videoFrame"
+        src=""
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
 
   <script>
     // particles init (kept lightweight)
@@ -254,6 +303,42 @@
           p.style.transform = `translate(${Math.cos(a)*20}px, ${Math.sin(a)*20}px)`;
         } else { p.style.transform = 'translate(0,0)'; }
       });
+    });
+
+    // ===== NEW: video modal logic =====
+    const overlay = document.getElementById('videoOverlay');
+    const frame = document.getElementById('videoFrame');
+    const closeBtn = document.getElementById('videoClose');
+
+    // listen for all .watch-demo buttons (you can add more projects later)
+    document.querySelectorAll('.watch-demo').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const videoUrl = btn.getAttribute('data-video');
+        // add autoplay=1
+        const finalUrl = videoUrl.includes('?') ? videoUrl + '&autoplay=1' : videoUrl + '?autoplay=1';
+        frame.src = finalUrl;
+        overlay.classList.add('active');
+      });
+    });
+
+    function closeVideo() {
+      overlay.classList.remove('active');
+      frame.src = ''; // stop video
+    }
+
+    closeBtn.addEventListener('click', closeVideo);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeVideo();
+      }
+    });
+
+    // ESC to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeVideo();
+      }
     });
   </script>
 </body>
