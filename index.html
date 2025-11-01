@@ -224,7 +224,7 @@
         </p>
         <div class="actions">
           <!-- NOTE: change the video id here -->
-          <button class="btn watch-demo" data-video="https://www.youtube.com/embed/ojKiN08gdwU">
+          <button class="btn watch-demo" data-video="https://www.youtube.com/watch?v=ojKiN08gdwU">
             Watch Demo
           </button>
         </div>
@@ -307,39 +307,56 @@
 
     // ===== NEW: video modal logic =====
     const overlay = document.getElementById('videoOverlay');
-    const frame = document.getElementById('videoFrame');
-    const closeBtn = document.getElementById('videoClose');
+  const frame = document.getElementById('videoFrame');
+  const closeBtn = document.getElementById('videoClose');
 
-    // listen for all .watch-demo buttons (you can add more projects later)
-    document.querySelectorAll('.watch-demo').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const videoUrl = btn.getAttribute('data-video');
-        // add autoplay=1
-        const finalUrl = videoUrl.includes('?') ? videoUrl + '&autoplay=1' : videoUrl + '?autoplay=1';
-        frame.src = finalUrl;
-        overlay.classList.add('active');
-      });
-    });
+  function makeEmbed(url) {
+    // already embed
+    if (url.includes('embed/')) return url;
 
-    function closeVideo() {
-      overlay.classList.remove('active');
-      frame.src = ''; // stop video
+    if (url.includes('watch?v=')) {
+      const id = url.split('watch?v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${id}`;
     }
+    if (url.includes('youtu.be/')) {
+      const id = url.split('youtu.be/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    return url;
+  }
 
-    closeBtn.addEventListener('click', closeVideo);
+  document.querySelectorAll('.watch-demo').forEach(btn => {
+    btn.addEventListener('click', () => {
+      let raw = btn.getAttribute('data-video');
+      let embed = makeEmbed(raw);
 
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        closeVideo();
+      // only add origin if we're on http/https
+      if (location.protocol === 'http:' || location.protocol === 'https:') {
+        const origin = encodeURIComponent(location.origin);
+        embed += embed.includes('?') ? `&origin=${origin}` : `?origin=${origin}`;
+        embed += '&autoplay=1';
+      } else {
+        // file:// -> still try autoplay
+        embed += embed.includes('?') ? '&autoplay=1' : '?autoplay=1';
       }
-    });
 
-    // ESC to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.classList.contains('active')) {
-        closeVideo();
-      }
+      frame.src = embed;
+      overlay.classList.add('active');
     });
+  });
+
+  function closeVideo() {
+    overlay.classList.remove('active');
+    frame.src = '';
+  }
+
+  closeBtn.addEventListener('click', closeVideo);
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeVideo();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeVideo();
+  });
   </script>
 </body>
 </html>
