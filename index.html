@@ -107,7 +107,7 @@
     }
     .project:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 25px rgba(0, 255, 255, 0.4); border-color: #00ffff77; }
     .project h3 { color: var(--accent); margin-bottom: 0.25rem; text-shadow: 0 0 5px var(--accent); }
-    .project p { color: var(--muted); font-size: 1rem; }
+    /*.project p, .project li { color: var(--muted); font-size: 1rem; }*?
 
     /* Media placeholder */
     .project-media { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; border: 1px solid #00ffff33; background: linear-gradient(135deg, #0c0f14, #0a1a20); }
@@ -219,12 +219,13 @@
       <div class="project">
         <div class="project-media"><img src="trvab.png" alt="Description of image"></div>
         <h3>Two Rings: Vanquish and Bloom</h3>
-        <p>
-          Description: A block shooter game built with a custom ECS engine in C++ and OpenGL with integrated Lua scripting.
-          Role: Physics and gameplay programmer.
-          Contribution: Did the physics and collision system using C++ and TTF system to draw text into the world. Also did player and projectile movement logic and powerups. Also did the chair model and particle effects for healing and the portal.
-          Team members: 5
-        </p>
+        <p>A block shooter game built with a custom ECS engine in C++ and OpenGL with integrated Lua scripting.</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><strong>Programming language:</strong> C++, Lua</li>
+          <li><strong>Role:</strong> Physics and gameplay programmer</li>
+          <li><strong>Contribution:</strong> Did the physics and collision system using C++ and TTF system to draw text into the world. Also did player and projectile movement logic and powerups. Also did the chair model and particle effects for healing and the portal.</li>
+          <li><strong>Team members:</strong> 5</li>
+        </ul>
         <div class="actions">
           <!-- NOTE: change the video id here -->
           <a href="https://www.youtube.com/watch?v=ojKiN08gdwU" target="_blank" class="btn">
@@ -240,12 +241,13 @@
       <div class="project">
         
         <h3>Flightless</h3>
-        <p>
-          Description: Walking simulator made in Unreal Engine using blueprints.
-          Role: Gameplay programmer and vfx artist.
-          Contribution: Made behavior tree and tasks, decorator and services for the AI in the game. Made sakura, snow and rain particle effects using niagara system.
-          Team members: 13
-        </p>
+        <p>Walking simulator made in Unreal Engine using blueprints.</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><strong>Programming language:</strong> Blueprints</li>
+          <li><strong>Role:</strong> Gameplay programmer and vfx artist.</li>
+          <li><strong>Contribution:</strong> Made behavior tree and tasks, decorator and services for the AI in the game. Made sakura, snow and rain particle effects using niagara system.</li>
+          <li><strong>Team members:</strong> 13</li>
+        </ul>
       </div>
     </div>
   </section>
