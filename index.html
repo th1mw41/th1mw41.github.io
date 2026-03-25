@@ -224,17 +224,9 @@
           <li><strong>Description:</strong> Save, load and change editor camera view, teleport player in play mode, execute, load and save custom commands to execute functions on actors in game.</li>
         </ul>
         <div class="actions">
-  <a class="btn" style="cursor: pointer;" onclick="document.getElementById('unreal-video-container').style.display='block'; document.getElementById('unreal-video').play(); this.style.display='none';">Watch Demo</a>
-  
-  <a href="https://github.com/th1mw41/UnrealEngineTools" target="_blank" class="btn">Github</a>
-</div>
-
-<div id="unreal-video-container" class="project-video" style="display: none; margin-top: 15px;">
-  <video id="unreal-video" width="100%" controls style="border-radius: 8px; border: 1px solid #00ffffaa;">
-    <source src="unrealenginetools.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+          <a class="btn watch-demo" style="cursor: pointer;" data-video="unrealenginetools.mp4">Watch Demo</a>
+          <a href="https://github.com/th1mw41/UnrealEngineTools" target="_blank" class="btn">Github</a>
+        </div>
       </div>
 
       <!-- NEW Project 3 -->
@@ -323,15 +315,10 @@
   <div class="video-overlay" id="videoOverlay">
     <div class="video-modal">
       <div class="video-close" id="videoClose">×</div>
-      <!-- will be filled in by JS -->
-      <iframe
-        id="videoFrame"
-        src=""
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen>
-      </iframe>
+      
+      <iframe id="videoFrame" src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="display: none;"></iframe>
+      
+      <video id="mp4Video" controls style="width: 100%; height: 100%; display: none; background: #000;"></video>
     </div>
   </div>
 
@@ -362,57 +349,61 @@
     });
 
     // ===== NEW: video modal logic =====
-    const overlay = document.getElementById('videoOverlay');
-  const frame = document.getElementById('videoFrame');
-  const closeBtn = document.getElementById('videoClose');
+const overlay = document.getElementById('videoOverlay');
+const frame = document.getElementById('videoFrame');
+const mp4Video = document.getElementById('mp4Video'); // Added MP4 reference
+const closeBtn = document.getElementById('videoClose');
 
-  function makeEmbed(url) {
-    // already embed
-    if (url.includes('embed/')) return url;
+function makeEmbed(url) {
+  if (url.includes('embed/')) return url;
+  if (url.includes('watch?v=')) { const id = url.split('watch?v=')[1].split('&')[0]; return `https://www.youtube.com/embed/${id}`; }
+  if (url.includes('youtu.be/')) { const id = url.split('youtu.be/')[1].split('?')[0]; return `https://www.youtube.com/embed/${id}`; }
+  return url;
+}
 
-    if (url.includes('watch?v=')) {
-      const id = url.split('watch?v=')[1].split('&')[0];
-      return `https://www.youtube.com/embed/${id}`;
-    }
-    if (url.includes('youtu.be/')) {
-      const id = url.split('youtu.be/')[1].split('?')[0];
-      return `https://www.youtube.com/embed/${id}`;
-    }
-    return url;
-  }
-
-  document.querySelectorAll('.watch-demo').forEach(btn => {
-    btn.addEventListener('click', () => {
-      let raw = btn.getAttribute('data-video');
+document.querySelectorAll('.watch-demo').forEach(btn => {
+  btn.addEventListener('click', () => {
+    let raw = btn.getAttribute('data-video');
+    
+    // Check if the file is an MP4
+    if (raw.endsWith('.mp4')) {
+      frame.style.display = 'none';
+      mp4Video.style.display = 'block';
+      mp4Video.src = raw;
+      overlay.classList.add('active');
+      mp4Video.play();
+    } 
+    // Otherwise, treat it as a YouTube link
+    else {
+      mp4Video.style.display = 'none';
+      mp4Video.pause();
+      frame.style.display = 'block';
+      
       let embed = makeEmbed(raw);
-
-      // only add origin if we're on http/https
       if (location.protocol === 'http:' || location.protocol === 'https:') {
         const origin = encodeURIComponent(location.origin);
         embed += embed.includes('?') ? `&origin=${origin}` : `?origin=${origin}`;
         embed += '&autoplay=1';
       } else {
-        // file:// -> still try autoplay
         embed += embed.includes('?') ? '&autoplay=1' : '?autoplay=1';
       }
-
       frame.src = embed;
       overlay.classList.add('active');
-    });
+    }
   });
+});
 
-  function closeVideo() {
-    overlay.classList.remove('active');
-    frame.src = '';
-  }
+function closeVideo() {
+  overlay.classList.remove('active');
+  frame.src = '';
+  mp4Video.pause(); // Stops the MP4 from playing in the background
+  mp4Video.src = '';
+}
 
-  closeBtn.addEventListener('click', closeVideo);
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeVideo();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.classList.contains('active')) closeVideo();
-  });
+closeBtn.addEventListener('click', closeVideo);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeVideo(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeVideo(); });
+  
   </script>
 </body>
 </html>
